@@ -1,38 +1,50 @@
-import re
+#!/usr/bin/env python3
 
-text = """
-Contact me at vanessa@example.com or visit https://www.example.com. or v.umwari@example.o
-Call 123-456-7890. Use card number 1234-5678-9012-3456.
-The meeting is at 2:30 PM. Price is $99.99. #simple
+"""
+Regex Data Extraction Project
+
+This script extracts various data types from a block of raw text using Python's re module.
+It is designed to fulfill all requirements of the ALU Regex Onboarding Hackathon assignment.
+
+Author: Vanessa Umwari
+GitHub Repository: https://github.com/YOUR_USERNAME/alu_regex-data-extraction-YOUR_USERNAME
 """
 
-# 1. Email
-emails = re.findall(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}", text)
+import re
 
-# 2. URL
-urls = re.findall(r"https?://[^\s]+", text)
+# Sample input string for testing
+sample_data = """
+    Emails: zaphira.qwenzi@ikoranotech.rw, thabiso.mutema@afrosolutions.africa
+    URLs: https://www.kigalitech.rw, https://portal.savannah-hub.org/projects
+    Phones: (250) 789-123456, 0788-456-789, 0722.333.111
+    Credit Cards: 4578 3456 7890 1234, 6011-7821-4321-9087
+    Times: 09:45, 11:59 PM
+    HTML: <header>, <section class="hero">, <img src="logo.png" alt="Company Logo">
+    Hashtags: #CodeRwanda, #Tech4Good
+    Currency: $8,745.99, $342.00
+"""
 
-# 3. Phone
-phones = re.findall(r"\d{3}[-.]\d{3}[-.]\d{4}", text)
+# Dictionary of regex patterns
+patterns = {
+    "Email Addresses": r"[\w.-]+@[\w.-]+\.\w+",
+    "URLs": r"https?://[\w./-]+",
+    "Phone Numbers": r"(?:\(\d{3}\)[ ]?|\d{3}[-.])\d{3}[-.]\d{4}",
+    "Credit Card Numbers": r"\d{4}[- ]\d{4}[- ]\d{4}[- ]\d{4}",
+    "Times (12/24 hour)": r"(?:[01]?\d|2[0-3]):[0-5]\d(?:\s?(?:AM|PM))?",
+    "HTML Tags": r"<[^>]+>",
+    "Hashtags": r"#\w+",
+    "Currency Amounts": r"\$\d{1,3}(?:,\d{3})*(?:\.\d{2})?"
+}
 
-# 4. Credit Card
-cards = re.findall(r"\d{4}[- ]\d{4}[- ]\d{4}[- ]\d{4}", text)
+# Function to extract and print results
+def extract_all(text, pattern_dict):
+    print("\n--- Extracted Data ---")
+    for label, pattern in pattern_dict.items():
+        matches = re.findall(pattern, text)
+        print(f"\n{label} ({len(matches)} found):")
+        for match in matches:
+            print(f"  - {match}")
 
-# 5. Time
-times = re.findall(r"\d{1,2}:\d{2}\s?(AM|PM)", text)
-
-# 6. Currency
-money = re.findall(r"\$\d+(?:\.\d{2})?", text)
-
-# 7. Hashtag
-hashtags = re.findall(r"#\w+", text)
-
-# Show results
-print("Emails:", emails)
-print("URLs:", urls)
-print("Phone Numbers:", phones)
-print("Credit Cards:", cards)
-print("Times:", times)
-print("Currency:", money)
-print("Hashtags:", hashtags)
-
+# Run extraction
+if __name__ == '__main__':
+    extract_all(sample_data, patterns)
