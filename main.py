@@ -1,13 +1,13 @@
 import re
 
 text = """
-Contact me at email@example.com or visit https://www.example.com.
+Contact me at vanessa@example.com or visit https://www.example.com. or v.umwari@example.o
 Call 123-456-7890. Use card number 1234-5678-9012-3456.
 The meeting is at 2:30 PM. Price is $99.99. #simple
 """
 
 # 1. Email
-emails = re.findall(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", text)
+emails = re.findall(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]{2,}", text)
 
 # 2. URL
 urls = re.findall(r"https?://[^\s]+", text)
